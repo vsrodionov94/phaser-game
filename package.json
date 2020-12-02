@@ -1,0 +1,23 @@
+{
+  "name": "phaser-game",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vsrodionov94/phaser-game.git"
+  },
+  "keywords": [
+    "game",
+    "phaser"
+  ],
+  "author": "Vladimir Rodionov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vsrodionov94/phaser-game/issues"
+  },
+  "homepage": "https://github.com/vsrodionov94/phaser-game#readme"
+}
