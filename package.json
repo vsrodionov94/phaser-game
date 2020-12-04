@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/vsrodionov94/phaser-game/issues"
   },
-  "homepage": "https://github.com/vsrodionov94/phaser-game#readme"
+  "homepage": "https://github.com/vsrodionov94/phaser-game#readme",
+  "dependencies": {
+    "phaser": "^3.24.1"
+  }
 }
