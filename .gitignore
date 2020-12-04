@@ -1,15 +1,14 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-
-# Dependency directory
-node_modules
-
-# Optional npm cache directory
-.npm
-
-# Optional REPL history
+# System and IDE files
+Thumbs.db
 .DS_Store
 .idea
-.vscode
+*.suo
+*.sublime-project
+*.sublime-workspace
+
+# Vendors
+node_modules/
+
+# Build
+dist/
+/npm-debug.log
