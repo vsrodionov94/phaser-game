@@ -1,12 +1,5 @@
 import * as Phaser from "phaser";
 
-const sky = require('../../../public/assets/sky.png');
-const ground = require('../../../public/assets/platform.png');
-const star = require('../../../public/assets/star.png');
-const bomb = require('../../../public/assets/bomb.png');
-const dude = require('../../../public/assets/dude.png');
-const border = require('../../../public/assets/borders.png');
-
 export default class GameScene extends Phaser.Scene {
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private player?: Phaser.Physics.Arcade.Sprite;
@@ -22,13 +15,13 @@ export default class GameScene extends Phaser.Scene {
     }
 
     public preload (): void {
-        this.load.image('sky', sky);
-        this.load.image('ground', ground);
-        this.load.image('star', star);
-        this.load.image('bomb', bomb);
-        this.load.spritesheet('dude', dude, { frameWidth: 32, frameHeight: 48 });
-        this.load.image('shoot', star); 
-        this.load.image('border', border);
+        this.load.image('sky', '../../../public/assets/sky.png');
+        this.load.image('ground', '../../../public/assets/platform.png');
+        this.load.image('star', '../../../public/assets/star.png');
+        this.load.image('bomb', '../../../public/assets/bomb.png');
+        this.load.spritesheet('dude', '../../../public/assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.image('shoot', '../../../public/assets/star.png'); 
+        this.load.image('border', '../../../public/assets/borders.png');
     }
 
     public create (): void {

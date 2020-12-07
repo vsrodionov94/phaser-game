@@ -10,7 +10,7 @@ enum Styles {
     Font = 'Arial'
 }
 
-const keys = require('../../../public/assets/keys.png');
+
 export class StartScene extends Phaser.Scene {
     private title: Phaser.GameObjects.Text;
     private text: Phaser.GameObjects.Text;
@@ -19,7 +19,7 @@ export class StartScene extends Phaser.Scene {
     }
 
     public preload (): void {
-        this.load.image('keys', keys);
+        this.load.image('keys', '../../../public/assets/keys.png');
     }
      
     public create(): void {
