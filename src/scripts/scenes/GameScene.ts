@@ -13,9 +13,10 @@ export default class GameScene extends Phaser.Scene {
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private stars?: Phaser.Physics.Arcade.Group;
     private score = 0;
-    private scoreText: Phaser.GameObjects.Text;
+    private scoreText?: Phaser.GameObjects.Text;
     private bombs?: Phaser.Physics.Arcade.Group;
-    private gameOver = false;
+    private shoots?: Phaser.Physics.Arcade.Group;
+    
     constructor() {
         super('Game');   
     }
@@ -86,15 +87,17 @@ export default class GameScene extends Phaser.Scene {
         this.physics.add.collider(this.stars, this.platforms)
         this.physics.add.overlap(this.player, this.stars, this.handleCollectStar, null, this);
         
-        this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
-    
+        this.scoreText = this.add.text(16, 16, ' ', { fontSize: '32px', fill: '#000' });
         this.bombs = this.physics.add.group();
         this.physics.add.collider(this.bombs, this.platforms);
         this.physics.add.collider(this.player, this.bombs, this.handlerHitBomb, null, this);
-    
+
+        this.shoots = this.physics.add.group();
+        this.physics.add.collider(this.shoots, this.bombs, this.handlerDestroyBomb, null, this);
+        this.physics.add.collider(this.shoots, this.platforms, this.handleDestroyShoot, null, this);
     })
 }
-    public update() {
+    public update(): void {
         if (!this.cursors){
             return
         }
@@ -112,9 +115,25 @@ export default class GameScene extends Phaser.Scene {
         if (this.cursors.up.isDown && this.player.body.touching.down) {
             this.player.setVelocityY(-330);
         }
+
+        if (this.cursors.space.isDown && this.score > 0 && !this.shoots.countActive(true) ) {
+            const shoot:Phaser.Physics.Arcade.Sprite = this.shoots.create(this.player.x, this.player.y, 'shoot').setScale(0.5);
+            if (this.cursors.left.isDown) {
+                shoot.setGravityY(500);
+                shoot.setVelocityX(-800);
+            } else if (this.cursors.right.isDown) {
+                shoot.setVelocityX(800);
+                shoot.setGravityY(500);
+            } else {
+                shoot.setVelocityY(-800);
+                shoot.setGravityY(500);
+            }
+                this.score -= 1;
+                this.scoreText.setText('Score: ' + this.score);
+            }
     }
 
-    private handleCollectStar (player: Phaser.GameObjects.GameObject, s: Phaser.GameObjects.GameObject) {
+    private handleCollectStar(player: Phaser.GameObjects.GameObject, s: Phaser.GameObjects.GameObject): void {
         const star = s as Phaser.Physics.Arcade.Sprite;
         star.disableBody(true, true);
 
@@ -138,11 +157,21 @@ export default class GameScene extends Phaser.Scene {
         }
     }
 
-    private handlerHitBomb (p: Phaser.GameObjects.GameObject, bomb: Phaser.GameObjects.GameObject) {
+    private handlerHitBomb (p: Phaser.GameObjects.GameObject, bomb: Phaser.GameObjects.GameObject): void {
         this.physics.pause();
         this.player.setTint(0xff0000);
         this.player.anims.play('turn');
-        this.gameOver = true;
+        this.scene.start('Start');
+    }
+
+    private handlerDestroyBomb (shoot: Phaser.GameObjects.GameObject, b: Phaser.GameObjects.GameObject): void {
+        const bomb = b as Phaser.Physics.Arcade.Sprite;
+        bomb.disableBody(true, true);
+    }
+
+    private handleDestroyShoot(s: Phaser.GameObjects.GameObject, platforms: Phaser.GameObjects.GameObject): void {
+        const shoot = s as Phaser.Physics.Arcade.Sprite;
+        shoot.destroy();
     }
 
 }
